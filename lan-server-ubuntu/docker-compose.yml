@@ -17,7 +17,7 @@ services:
     container_name: portainer
     ports:
      - 8000:8000
-     - 9000:9000
+#     - 9000:9000
     volumes:
      - /var/run/docker.sock:/var/run/docker.sock
      - ${PORTAINER_DATA_DIR}:/data
@@ -29,7 +29,7 @@ services:
     ports:
      - 53:53/tcp
      - 53:53/udp
-     - 81:80/tcp
+#     - 81:80/tcp
      - 3000:3000/tcp
      - 67:67/udp
 #     - 68:68/tcp
@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
     container_name: jenkins
     ports:
-     - 8080:8080
+#     - 8080:8080
      - 5000:5000
     volumes:
      - ${JENKINS_DATA_DIR}:/var/jenkins_home
@@ -54,8 +54,8 @@ services:
     image: ghcr.io/linuxserver/mariadb:${MARIADB_TAG}
     restart: unless-stopped
     container_name: mariadb
-    ports:
-      - 3306:3306
+#    ports:
+#      - 3306:3306
     volumes:
       - ${MARIADB_DATA_DIR}:/config
     environment:
@@ -69,13 +69,13 @@ services:
 #      - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql #optional
 
   mongodb:
-    image: mongo:${MONGO_TAG}
+    image: mongo:${MONGODB_TAG}
     restart: unless-stopped
     container_name: mongodb
-    ports:
-     - 27017:27017
+#    ports:
+#     - 27017:27017
     volumes:
-     - ${MONGO_DATA_DIR}:/data/db
+     - ${MONGODB_DATA_DIR}:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -85,8 +85,8 @@ services:
     restart: unless-stopped
     container_name: netdata
 #    hostname: example.com # set to fqdn of host
-    ports:
-      - 19999:19999
+#    ports:
+#      - 19999:19999
     volumes:
       - ${NETDATA_DATA_DIR}/config:/etc/netdata
       - ${NETDATA_DATA_DIR}/lib:/var/lib/netdata
@@ -112,7 +112,7 @@ services:
 #MARIADB_TAG=
 #MARIADB_DATA_DIR=
 #MARIADB_MYSQL_ROOT_PASSWORD=
-#MONGO_TAG=
-#MONGO_DATA_DIR=
+#MONGODB_TAG=
+#MONGODB_DATA_DIR=
 #NETDATA_TAG=
 #NETDATA_DATA_DIR=
