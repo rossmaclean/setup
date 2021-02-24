@@ -1,0 +1,106 @@
+version: '3'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:${PORTAINER_TAG}
+    restart: unless-stopped
+    container_name: portainer
+    ports:
+     - 8000:8000
+     - 9000:9000
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - ${PORTAINER_DATA_DIR}:/data
+
+  adguard:
+    image: adguard/adguardhome:${ADGUARD_TAG}
+    restart: unless-stopped
+    container_name: adguard
+    ports:
+     - 53:53/tcp
+     - 53:53/udp
+     - 81:80/tcp
+     - 3000:3000/tcp
+     - 67:67/udp
+#     - 68:68/tcp
+#     - 68:68/udp
+     - 443:433/tcp
+     - 853:853/tcp
+    volumes:
+     - ${ADGUARD_DATA_DIR}/work:/opt/adguardhome/work
+     - ${ADGUARD_DATA_DIR}/conf:/opt/adguardhome/conf
+
+  jenkins:
+    image: jenkins/jenkins:${JENKINS_TAG}
+    restart: unless-stopped
+    container_name: jenkins
+    ports:
+     - 8080:8080
+     - 5000:5000
+    volumes:
+     - ${JENKINS_DATA_DIR}:/var/jenkins_home
+
+  mariadb:
+    image: ghcr.io/linuxserver/mariadb:${MARIADB_TAG}
+    restart: unless-stopped
+    container_name: mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - ${MARIADB_DATA_DIR}:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=${MARIADB_MYSQL_ROOT_PASSWORD}
+      - TZ=Europe/London
+#      - MYSQL_DATABASE=USER_DB_NAME #optional
+#      - MYSQL_USER=MYSQL_USER #optional
+#      - MYSQL_PASSWORD=DATABASE_PASSWORD #optional
+#      - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql #optional
+
+  mongodb:
+    image: mongo:${MONGO_TAG}
+    restart: unless-stopped
+    container_name: mongodb
+    ports:
+     - 27017:27017
+    volumes:
+     - ${MONGO_DATA_DIR}:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  netdata:
+    image: netdata/netdata:${NETDATA_TAG}
+    restart: unless-stopped
+    container_name: netdata
+#    hostname: example.com # set to fqdn of host
+    ports:
+      - 19999:19999
+    volumes:
+      - ${NETDATA_DATA_DIR}/config:/etc/netdata
+      - ${NETDATA_DATA_DIR}/lib:/var/lib/netdata
+      - ${NETDATA_DATA_DIR}/cache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+
+#PORTAINER_TAG=
+#PORTAINER_DATA_DIR=
+#ADGUARD_TAG=
+#ADGUARD_DATA_DIR=
+#JENKINS_TAG=
+#JENKINS_DATA_DIR=
+#MARIADB_TAG=
+#MARIADB_DATA_DIR=
+#MARIADB_MYSQL_ROOT_PASSWORD=
+#MONGO_TAG=
+#MONGO_DATA_DIR=
+#NETDATA_TAG=
+#NETDATA_DATA_DIR=
