@@ -29,7 +29,7 @@ services:
     ports:
      - 53:53/tcp
      - 53:53/udp
-#     - 81:80/tcp
+     - 81:80/tcp
      - 3000:3000/tcp
      - 67:67/udp
 #     - 68:68/tcp
@@ -54,8 +54,8 @@ services:
     image: ghcr.io/linuxserver/mariadb:${MARIADB_TAG}
     restart: unless-stopped
     container_name: mariadb
-#    ports:
-#      - 3306:3306
+    ports:
+      - 3306:3306
     volumes:
       - ${MARIADB_DATA_DIR}:/config
     environment:
@@ -72,8 +72,8 @@ services:
     image: mongo:${MONGODB_TAG}
     restart: unless-stopped
     container_name: mongodb
-#    ports:
-#     - 27017:27017
+    ports:
+     - 27017:27017
     volumes:
      - ${MONGODB_DATA_DIR}:/data/db
     environment:

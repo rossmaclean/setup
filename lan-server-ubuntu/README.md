@@ -7,6 +7,9 @@
 I've found that running `sudo chown -R 1000 container-data` fixes issues with this for all. 
 However, this often has to be ran after creation running before doesn't work.
 
+## AdGuard
+You can comment out the http port once setup is complete and the domain is pointing to it.
+
 ## Nginx
 Good luck lol.
 Make sure the directories and nginx.conf file already exist
@@ -30,6 +33,9 @@ to reload nginx inside the container. *RESTARTING THE CONTAINER WILL NOT WORK*.
 The ports of many containers are commented out. This is because we are using nginx in a 
 container. It lets us use the ports without exposing (as in ports section not literal expose) them.
 
+### Databases
+Databases are excluded from this as connecting to them via port 80 is just wrong.
+
 ## Helpful Commands
 Stop all containers
 `docker stop $(docker ps -q)`
@@ -41,7 +47,7 @@ Nginx sym link
 `sudo ln -s ../sites-available/portainer.conf .`
 
 Nginx reload
-``
+`docker exec -it nginx nginx -s reload`
 
 Change directory ownership
 `sudo chown -R 1000 container-data`
