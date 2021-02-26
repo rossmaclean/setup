@@ -1,10 +1,26 @@
 #!/bin/bash
 set -e
 
+checkPort53() {
+  if sudo lsof -i :53
+    then
+      echo "Port 53 in use, fixing that..."
+      sudo sed -i 's/#DNS=/DNS=192.168.1.1/' '/etc/systemd/resolved.conf'
+      sudo sed -i 's/#DNSStubListener=yes/DNSStubListener=no/' '/etc/systemd/resolved.conf'
+      sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+      echo "Port 53 should now be free, rebooting..."
+      sudo reboot
+  fi
+}
+
 setup() {
+  sudo apt update
+  sudo apt dist-upgrade -y
+
   curl -fsSL https://get.docker.com -o get-docker.sh
   sudo sh get-docker.sh
-  sudo apt install docker-compose -y
+  sudo apt install docker-compose fail2ban -y
+  sudo usermod -aG docker ross
 
   mkdir docker
   cd docker
@@ -12,6 +28,8 @@ setup() {
 
   curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/docker-compose.yml > docker-compose.yml
   curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/template.env > .env
+
+  checkPort53
 }
 
 compose() {

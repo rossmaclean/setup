@@ -108,8 +108,8 @@ services:
     volumes:
      - ${MONGODB_DATA_DIR}:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
 
   netdata:
     image: netdata/netdata:${NETDATA_TAG}
