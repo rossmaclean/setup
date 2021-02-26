@@ -2,6 +2,10 @@
 set -e
 
 setup() {
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  sudo sh get-docker.sh
+  sudo apt install docker-compose -y
+
   mkdir docker
   cd docker
   mkdir container-data
@@ -11,11 +15,12 @@ setup() {
 }
 
 compose() {
-  docker-compose -f docker/docker-compose.yml up -d
+  cd docker
+  docker-compose up -d
 
   docker stop $(docker ps -a -q)
-  sudo chown -R 1000 docker/container-data
-  docker-compose -f docker/docker-compose.yml up -d
+  sudo chown -R 1000 container-data
+  docker-compose up -d
 }
 
 if [ $1 -eq 0 ]
