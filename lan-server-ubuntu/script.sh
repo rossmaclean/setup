@@ -14,7 +14,7 @@ compose() {
   docker-compose -f docker/docker-compose.yml up -d
 
   docker stop $(docker ps -a -q)
-  sudo chown -R 1000 container-data
+  sudo chown -R 1000 docker/container-data
   docker-compose -f docker/docker-compose.yml up -d
 }
 
