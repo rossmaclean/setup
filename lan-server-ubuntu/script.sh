@@ -15,7 +15,7 @@ checkPort53() {
 
 generate_nginx_config() {
   # Download files
-  curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/nginx-config.tar.gz > nginx-config.tar.gz
+  wget https://github.com/rossmaclean/setup/raw/main/lan-server-ubuntu/nginx-config.tar.gz
   tar -xvzf nginxconfig.io.tar.gz -C docker/container-data
   cd container-data/nginx/sites-enabled/
   sudo ln -s ../sites-available/*.conf .
