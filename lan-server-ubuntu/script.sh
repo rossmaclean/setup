@@ -13,6 +13,15 @@ checkPort53() {
   fi
 }
 
+generate_nginx_config() {
+  # Download files
+  curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/nginx-config.tar.gz > nginx-config.tar.gz
+  tar -xvzf nginxconfig.io.tar.gz -C docker/container-data
+  cd container-data/nginx/sites-enabled/
+  sudo ln -s ../sites-available/*.conf .
+  cd ../../..
+}
+
 setup() {
   sudo apt update
   sudo apt dist-upgrade -y
@@ -25,6 +34,7 @@ setup() {
   mkdir docker
   cd docker
   mkdir container-data
+  generate_nginx_config
 
   curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/docker-compose.yml > docker-compose.yml
   curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/template.env > .env
