@@ -18,7 +18,7 @@ generate_nginx_config() {
   wget https://github.com/rossmaclean/setup/raw/main/lan-server-ubuntu/nginx-config.tar.gz
   tar -xvzf nginx-config.tar.gz -C container-data/
   cd container-data/nginx/sites-enabled/
-  sudo ln -s ../sites-available/*.conf .
+  ln -s ../sites-available/*.conf .
   cd ../../..
 }
 
@@ -40,7 +40,7 @@ setup() {
   curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/template.env > .env
 
   sudo ufw allow ssh
-  sudo ufw enable
+  yes | sudo ufw enable
 
   checkPort53
 }
@@ -50,7 +50,7 @@ compose() {
   docker-compose up -d
 
   docker stop $(docker ps -a -q)
-  sudo chown -R 1000 container-data/jenkins
+  sudo chown -R 1000 container-data/jenkins/
   docker-compose up -d
 }
 
