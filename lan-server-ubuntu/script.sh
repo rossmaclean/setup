@@ -17,7 +17,11 @@ generate_nginx_config() {
   # Download files
   wget https://github.com/rossmaclean/setup/raw/main/lan-server-ubuntu/nginx-config.tar.gz
   tar -xvzf nginx-config.tar.gz -C docker/container-data/
-  ln -s docker/container-data/nginx/sites-available/*.conf docker/container-data/nginx/sites-enabled/
+
+  cd docker/container-data/nginx/sites-enabled
+  ln -s ../sites-available/*.conf .
+  cd ~
+  #ln -s docker/container-data/nginx/sites-available/*.conf docker/container-data/nginx/sites-enabled/
 }
 
 setup() {
