@@ -11,8 +11,6 @@ services:
      - ./container-data/nginx/sites-enabled:/etc/nginx/sites-enabled
     ports:
      - 80:80
-     - 27017:27017
-     - 3306:3306
 
   portainer:
     image: portainer/portainer-ce:${PORTAINER_TAG}
@@ -56,17 +54,15 @@ services:
     restart: unless-stopped
     container_name: mariadb
     volumes:
-      - mariadb_data_config:/config
-      - mariadb_data:/var/lib/mysql
+     - mariadb_data_config:/config
+     - mariadb_data:/var/lib/mysql
+    ports:
+     - 3306:3306
     environment:
-      - PUID=1000
-      - PGID=1000
-      - MYSQL_ROOT_PASSWORD=${MARIADB_MYSQL_ROOT_PASSWORD}
-      - TZ=Europe/London
-#      - MYSQL_DATABASE=USER_DB_NAME #optional
-#      - MYSQL_USER=MYSQL_USER #optional
-#      - MYSQL_PASSWORD=DATABASE_PASSWORD #optional
-#      - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql #optional
+     - PUID=1000
+     - PGID=1000
+     - MYSQL_ROOT_PASSWORD=${MARIADB_MYSQL_ROOT_PASSWORD}
+     - TZ=Europe/London
 
   mongodb:
     image: mongo:${MONGODB_TAG}
@@ -74,6 +70,8 @@ services:
     container_name: mongodb
     volumes:
      - mongodb_data:/data/db
+    ports:
+     - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
