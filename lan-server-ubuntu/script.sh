@@ -39,6 +39,9 @@ setup() {
   curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/docker-compose.yml > docker-compose.yml
   curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/template.env > .env
 
+  sudo ufw allow ssh
+  sudo ufw enable
+
   checkPort53
 }
 
@@ -47,7 +50,7 @@ compose() {
   docker-compose up -d
 
   docker stop $(docker ps -a -q)
-  sudo chown -R 1000 container-data
+  sudo chown -R 1000 container-data/jenkins
   docker-compose up -d
 }
 
