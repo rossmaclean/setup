@@ -17,9 +17,7 @@ generate_nginx_config() {
   # Download files
   wget https://github.com/rossmaclean/setup/raw/main/lan-server-ubuntu/nginx-config.tar.gz
   tar -xvzf nginx-config.tar.gz -C container-data/
-  cd container-data/nginx/sites-enabled/
-  ln -s ../sites-available/*.conf .
-  cd ../../..
+  ln -s container-data/nginx/sites-available/*.conf container-data/nginx/sites-enabled/
 }
 
 setup() {
@@ -32,12 +30,11 @@ setup() {
   sudo usermod -aG docker ross
 
   mkdir docker
-  cd docker
-  mkdir container-data
+  mkdir docker/container-data
   generate_nginx_config
 
-  curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/docker-compose.yml > docker-compose.yml
-  curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/template.env > .env
+  curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/docker-compose.yml > docker/docker-compose.yml
+  curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/template.env > docker/.env
 
   sudo ufw allow ssh
   yes | sudo ufw enable
