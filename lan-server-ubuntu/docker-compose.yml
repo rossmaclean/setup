@@ -22,7 +22,7 @@ services:
      - 8000:8000
     volumes:
      - /var/run/docker.sock:/var/run/docker.sock
-     - ${PORTAINER_DATA_DIR}:/data
+     - portainer_data:/data
 
   adguard:
     image: adguard/adguardhome:${ADGUARD_TAG}
@@ -39,8 +39,8 @@ services:
      - 443:433/tcp
      - 853:853/tcp
     volumes:
-     - ${ADGUARD_DATA_DIR}/work:/opt/adguardhome/work
-     - ${ADGUARD_DATA_DIR}/conf:/opt/adguardhome/conf
+     - adguard_data_work:/opt/adguardhome/work
+     - adguard_data_conf:/opt/adguardhome/conf
 
   jenkins:
     image: jenkins/jenkins:${JENKINS_TAG}
@@ -49,14 +49,15 @@ services:
     ports:
      - 5000:5000
     volumes:
-     - ${JENKINS_DATA_DIR}:/var/jenkins_home
+     - jenkins_data:/var/jenkins_home
 
   mariadb:
     image: ghcr.io/linuxserver/mariadb:${MARIADB_TAG}
     restart: unless-stopped
     container_name: mariadb
     volumes:
-      - ${MARIADB_DATA_DIR}:/config
+      - mariadb_data_config:/config
+      - mariadb_data:/var/lib/mysql
     environment:
       - PUID=1000
       - PGID=1000
@@ -72,7 +73,7 @@ services:
     restart: unless-stopped
     container_name: mongodb
     volumes:
-     - ${MONGODB_DATA_DIR}:/data/db
+     - mongodb_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
@@ -83,9 +84,9 @@ services:
     container_name: netdata
 #    hostname: example.com # set to fqdn of host
     volumes:
-      - ${NETDATA_DATA_DIR}/config:/etc/netdata
-      - ${NETDATA_DATA_DIR}/lib:/var/lib/netdata
-      - ${NETDATA_DATA_DIR}/cache:/var/cache/netdata
+      - netdata_data_config:/etc/netdata
+      - netdata_data_lib:/var/lib/netdata
+      - netdata_data_cache:/var/cache/netdata
       - /etc/passwd:/host/etc/passwd:ro
       - /etc/group:/host/etc/group:ro
       - /proc:/host/proc:ro
@@ -103,7 +104,7 @@ services:
     restart: unless-stopped
     container_name: mongodb-graylog
     volumes:
-      - ${MONGODB_GRAYLOG_DATA_DIR}:/data/db
+      - mongodb_graylog_data:/data/db
 
   # Elasticsearch: https://www.elastic.co/guide/en/elasticsearch/reference/7.10/docker.html
   elasticsearch-graylog:
@@ -111,7 +112,7 @@ services:
     restart: unless-stopped
     container_name: elasticsearch-graylog
     volumes:
-      - ${ELASTICSEARCH_GRAYLOG_DATA_DIR}:/usr/share/elasticsearch/data
+      - elasticsearch_graylog_data:/usr/share/elasticsearch/data
     environment:
       - http.host=0.0.0.0
       - transport.host=localhost
@@ -128,7 +129,7 @@ services:
     restart: unless-stopped
     container_name: graylog
     volumes:
-      - ${GRAYLOG_DATA_DIR}:/usr/share/graylog/data
+      - graylog_data:/usr/share/graylog/data
     environment:
       # CHANGE ME (must be at least 16 characters)!
       - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD_SECRET}
@@ -153,3 +154,20 @@ services:
       - 12201:12201
       # GELF UDP
       - 12201:12201/udp
+
+volumes:
+  portainer_data:
+  adguard_data:
+  jenkins_data:
+  mariadb_data:
+  adguard_data_work:
+  adguard_data_conf:
+  mariadb_data_config:
+  mariadb_data:
+  mongodb_data:
+  netdata_data_config:
+  netdata_data_lib:
+  netdata_data_cache:
+  mongodb_graylog_data:
+  elasticsearch_graylog_data:
+  graylog_data:

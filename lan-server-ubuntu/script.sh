@@ -50,7 +50,6 @@ compose() {
   docker-compose up -d
 
   docker stop $(docker ps -a -q)
-  sudo chown -R 1000 container-data/jenkins/
   docker-compose up -d
 }
 
