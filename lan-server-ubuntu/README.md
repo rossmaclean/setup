@@ -21,15 +21,10 @@ Make sure the directories and nginx.conf file already exist
 The dir structure is:
 
 ```
-```
-.
-curl -fsSL https://get.docker.com -o get-docker.sh
 +-- nginx.conf
-sudo sh get-docker.sh
 +-- conf.d
 |   +-- sites-available
 |   +-- sites-enabled
-```
 ```
 
 To create a sym link use `sudo ln -s ../sites-available/portainer.conf .` Make sure this is run inside the sites-enabled directory.
@@ -68,3 +63,6 @@ Nginx reload
 
 Change directory ownership
 `sudo chown -R 1000 container-data`
+
+Generate SHA2 for Graylog
+`echo -n "Enter Password: " && head -1 </dev/stdin | tr -d '\n' | sha256sum | cut -d" " -f1`

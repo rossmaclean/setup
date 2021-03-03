@@ -131,11 +131,8 @@ services:
     volumes:
       - graylog_data:/usr/share/graylog/data
     environment:
-      # CHANGE ME (must be at least 16 characters)!
-      - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD_SECRET}
-      # Password: admin
       - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_ROOT_PASSWORD_SHA2}
-      - GRAYLOG_HTTP_EXTERNAL_URI=http://graylog.home.local:9001/
+      - GRAYLOG_HTTP_EXTERNAL_URI=http://graylog.home.local/
     entrypoint: /usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh
     links:
       - mongodb-graylog:mongo
