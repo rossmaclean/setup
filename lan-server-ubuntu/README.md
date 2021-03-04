@@ -15,20 +15,8 @@ sudo sh get-docker.sh
 ```
 
 ## Apps
-## Nginx
-Good luck lol.
-Make sure the directories and nginx.conf file already exist
-The dir structure is:
-
-```
-+-- nginx.conf
-+-- conf.d
-|   +-- sites-available
-|   +-- sites-enabled
-```
-
+### Nginx
 To create a sym link use `sudo ln -s ../sites-available/portainer.conf .` Make sure this is run inside the sites-enabled directory.
-
 
 When any changes are made make sure to run
 `docker exec -it nginx nginx -s reload`
@@ -37,9 +25,6 @@ to reload nginx inside the container. *RESTARTING THE CONTAINER WILL NOT WORK*.
 ### AdGuard
 You can comment out the http port once setup is complete and the domain is pointing to it.
 Don't change the port during installation.
-
-### Jenkins
-Need to get working.
 
 ## Ports
 The ports of many containers are commented out. This is because we are using nginx in a 
