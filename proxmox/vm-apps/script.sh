@@ -14,7 +14,7 @@ check_port_53() {
 }
 
 setup_nginx_config() {
-  wget https://github.com/rossmaclean/setup/raw/main/lan-server-ubuntu/nginx-config.tar.gz
+  wget https://github.com/rossmaclean/setup/raw/main/proxmox/vm-apps/nginx-config.tar.gz
   tar -xvzf nginx-config.tar.gz -C docker/container-data/
 
   cd docker/container-data/nginx/sites-enabled
@@ -29,7 +29,7 @@ update_and_install_tools() {
   curl -fsSL https://get.docker.com -o get-docker.sh
   sudo sh get-docker.sh
 
-  sudo apt install docker-compose fail2ban mariadb-client-core-10.3 -y
+  sudo apt install docker-compose fail2ban -y
   sudo usermod -aG docker ross
 }
 
@@ -41,8 +41,8 @@ setup() {
 
   setup_nginx_config
 
-  curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/docker-compose.yml > docker/docker-compose.yml
-  curl https://raw.githubusercontent.com/rossmaclean/setup/main/lan-server-ubuntu/template.env > docker/.env
+  curl https://raw.githubusercontent.com/rossmaclean/setup/main/proxmox/vm-apps/docker-compose.yml > docker/docker-compose.yml
+  curl https://raw.githubusercontent.com/rossmaclean/setup/main/proxmox/vm-apps/template.env > docker/.env
 
   sudo ufw allow ssh
   yes | sudo ufw enable

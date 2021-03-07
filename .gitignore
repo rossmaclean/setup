@@ -1,3 +1,3 @@
 .env
-lan-server-ubuntu/template.env
-lan-server-ubuntu/.env
+proxmox/vm-apps/template.env
+proxmox/.env

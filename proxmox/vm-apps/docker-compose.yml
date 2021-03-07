@@ -12,16 +12,6 @@ services:
     ports:
       - 80:80
 
-  portainer:
-    image: portainer/portainer-ce:${PORTAINER_TAG}
-    restart: unless-stopped
-    container_name: portainer
-    ports:
-      - 8000:8000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-
   adguard:
     image: adguard/adguardhome:${ADGUARD_TAG}
     restart: unless-stopped
@@ -39,6 +29,16 @@ services:
     volumes:
       - adguard_data_work:/opt/adguardhome/work
       - adguard_data_conf:/opt/adguardhome/conf
+
+  portainer:
+    image: portainer/portainer-ce:${PORTAINER_TAG}
+    restart: unless-stopped
+    container_name: portainer
+    ports:
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
 
   jenkins:
     image: jenkins/jenkins:${JENKINS_TAG}
@@ -150,10 +150,9 @@ services:
       - 12201:12201/udp
 
 volumes:
-  portainer_data:
-  adguard_data:
   adguard_data_work:
   adguard_data_conf:
+  portainer_data:
   jenkins_data:
   mariadb_data:
   mongodb_data:

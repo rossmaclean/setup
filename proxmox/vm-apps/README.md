@@ -40,6 +40,9 @@ Stop all containers
 Remove all containers
 `docker rm $(docker ps -a -q)`
 
+Remove all volumes
+`docker volume rm $(docker volume ls -q)`
+
 Nginx sym link
 `sudo ln -s ../sites-available/portainer.conf .`
 
