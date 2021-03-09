@@ -14,7 +14,7 @@ check_port_53() {
 }
 
 setup_nginx_config() {
-  wget https://github.com/rossmaclean/setup/raw/main/proxmox/vm-apps/nginx-config.tar.gz
+  wget https://github.com/rossmaclean/setup/raw/main/proxmox/vm-web/nginx-config.tar.gz
   tar -xvzf nginx-config.tar.gz -C docker/container-data/
 
   cd docker/container-data/nginx/sites-enabled
@@ -41,8 +41,8 @@ setup() {
 
   setup_nginx_config
 
-  curl https://raw.githubusercontent.com/rossmaclean/setup/main/proxmox/vm-apps/docker-compose.yml > docker/docker-compose.yml
-  curl https://raw.githubusercontent.com/rossmaclean/setup/main/proxmox/vm-apps/template.env > docker/.env
+  curl https://raw.githubusercontent.com/rossmaclean/setup/main/proxmox/vm-web/docker-compose.yml > docker/docker-compose.yml
+  curl https://raw.githubusercontent.com/rossmaclean/setup/main/proxmox/vm-web/template.env > docker/.env
 
   sudo ufw allow ssh
   yes | sudo ufw enable
