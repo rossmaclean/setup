@@ -1,18 +1,10 @@
-# Server Setup
-## General Notes
-* Might have to allow port 53 for AdGuard https://www.linuxuprising.com/2020/07/ubuntu-how-to-free-up-port-53-used-by.html
-* Will have to give correct permissions for Jenkins data directory https://github.com/jenkinsci/docker/issues/177 (You must set the correct permissions in the host before you mount volumes sudo chown 1000 volume_dir). 
-  This might also apply to other container but not confirmed.
+# VM-Web
+This VM holds all the applications use for application development.
 
-I've found that running `sudo chown -R 1000 container-data` fixes issues with this for all. 
-However, this often has to be ran after creation running before doesn't work.
+## Setup
+The `setup.sh` script will take care of updating the system, installing docker, and cloning the docker-compose file.
 
-## Docker
-Install Docker using the convenience script.
-```
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-```
+Once the script has been run on the server, simply fill in the missing values in the .env file and run docker-compose.
 
 ## Apps
 ### Nginx
@@ -23,7 +15,7 @@ When any changes are made make sure to run
 to reload nginx inside the container. *RESTARTING THE CONTAINER WILL NOT WORK*.
 
 ### AdGuard
-You can comment out the http port once setup is complete and the domain is pointing to it.
+You can comment out the http port once setup is complete, and the subdomain is pointing to it.
 Don't change the port during installation.
 
 ## Ports
@@ -32,6 +24,9 @@ container. It lets us use the ports without exposing (as in ports section not li
 
 ### Databases
 Databases are excluded from this as connecting to them via port 80 is just wrong.
+
+## Backups
+The backup container backs up the data to S3 storage. They have still to update their docs on how to restore data on the event of a failure.
 
 ## Helpful Commands
 Stop all containers
