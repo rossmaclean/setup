@@ -150,7 +150,6 @@ services:
       - 12201:12201/udp
 
   grafana:
-    # ports 3000
     image: grafana/grafana:${GRAFANA_TAG}
     restart: unless-stopped
     container_name: grafana
@@ -158,26 +157,30 @@ services:
       - grafana_data:/var/lib/grafana
 
   backup:
-    image: futurice/docker-volume-backup
+    image: futurice/docker-volume-backup:${BACKUP_TAG}
     restart: unless-stopped
     container_name: backup
     volumes:
-      - grafana-data:/backup/grafana-data:ro
+      - adguard_data_work:/backup/adguard/work:ro
+      - adguard_data_conf:/backup/adguard/conf:ro
+      - portainer_data:/backup/portainer:ro
+      - jenkins_data:/backup/jenkins:ro
+      - mariadb_data:/backup/mariadb:ro
+      - mongodb_data:/backup/mongodb:ro
+      - netdata_data_config:/backup/netdata/config:ro
+      - netdata_data_lib:/backup/netdata/lib:ro
+      - netdata_data_cache:/backup/netdata/cache:ro
+      - mongodb_graylog_data:/backup/mongodb-graylog:ro
+      - elasticsearch_graylog_data:/backup/elasticsearch-graylog:ro
+      - graylog_data:/backup/graylog:ro
+      - grafana_data:/backup/grafana:ro
     environment:
-      AWS_S3_BUCKET_NAME: my-backup-bucket      # S3 bucket which you own, and already exists
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}   # Read AWS secrets from environment (or a .env file)
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-
-  influxdb:
-    image: influxdb:${INFLUXDB_TAG}2.0
-    restart: unless-stopped
-    container_name: influxdb
-    volumes:
-      - influxdb_data:/var/lib/influxdb2
-    ports:
-      - 8086:8086
-
-
+      AWS_S3_BUCKET_NAME: vm-web
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_ACCESS_KEY_ID}
+      AWS_EXTRA_ARGS: --endpoint-url https://s3.us-west-1.wasabisys.com
+      BACKUP_CRON_EXPRESSION: '* * * * *'
+      TZ: Europe/London
 
 volumes:
   adguard_data_work:
@@ -192,4 +195,4 @@ volumes:
   mongodb_graylog_data:
   elasticsearch_graylog_data:
   graylog_data:
-  grafana:
+  grafana_data:
