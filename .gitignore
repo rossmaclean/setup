@@ -1,5 +1,5 @@
 .env
-proxmox/vm-apps/template.env
+proxmox/vm-web/template.env
 proxmox/.env
 
 .idea
