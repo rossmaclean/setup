@@ -149,6 +149,36 @@ services:
       # GELF UDP
       - 12201:12201/udp
 
+  grafana:
+    # ports 3000
+    image: grafana/grafana:${GRAFANA_TAG}
+    restart: unless-stopped
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+  backup:
+    image: futurice/docker-volume-backup
+    restart: unless-stopped
+    container_name: backup
+    volumes:
+      - grafana-data:/backup/grafana-data:ro
+    environment:
+      AWS_S3_BUCKET_NAME: my-backup-bucket      # S3 bucket which you own, and already exists
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}   # Read AWS secrets from environment (or a .env file)
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+
+  influxdb:
+    image: influxdb:${INFLUXDB_TAG}2.0
+    restart: unless-stopped
+    container_name: influxdb
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    ports:
+      - 8086:8086
+
+
+
 volumes:
   adguard_data_work:
   adguard_data_conf:
@@ -162,3 +192,4 @@ volumes:
   mongodb_graylog_data:
   elasticsearch_graylog_data:
   graylog_data:
+  grafana:
