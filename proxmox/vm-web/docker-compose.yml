@@ -179,7 +179,7 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_ACCESS_KEY_ID}
       AWS_EXTRA_ARGS: --endpoint-url https://s3.us-west-1.wasabisys.com
-      BACKUP_CRON_EXPRESSION: '* * * * *'
+      BACKUP_CRON_EXPRESSION: '0 0,6,12,18 * * *'
       TZ: Europe/London
 
 volumes:
