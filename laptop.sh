@@ -13,11 +13,10 @@ cd yay
 makepkg -si
 
 echo "Installing packages using Pacman"
-sudo pacman -S discord chromium nodejs jdk11-openjdk jdk8-openjdk npm virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat
-
+sudo pacman -S discord chromium nodejs jdk11-openjdk jdk8-openjdk npm virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat docker docker-compose
+sudo usermod -aG docker ross
 
 echo "Installing packages using Yay"
-yay -S balena-etcher
 yay -S jetbrains-toolbox
 yay -S zoom
 yay -S icaclient
