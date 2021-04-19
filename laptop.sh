@@ -19,8 +19,8 @@ echo "Installing packages using Pacman"
 sudo pacman -S discord chromium nodejs jdk11-openjdk jdk8-openjdk npm virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat docker docker-compose lutris
 sudo usermod -aG docker ross
 
-echo "Enabling dhcpcd service"
-sudo systemctl enable dhcpcd.service --now
+echo "Enabling dnsmasq service"
+sudo systemctl enable dnsmasq.service --now
 
 echo "Installing packages using Yay"
 yay -S jetbrains-toolbox
